@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../repositories/remote_repository/auth/models/user_res_dm.dart';
+import '../../../repositories/remote_repository/common/models/user_res_dm.dart';
 import '../../../utilities/extensions/context_extensions.dart';
 import '../../../utilities/navigation/app_routes.dart';
 import '../../../utilities/network/network_state.dart';
