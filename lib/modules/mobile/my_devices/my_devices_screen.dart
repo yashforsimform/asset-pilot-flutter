@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../repositories/remote_repository/device/models/my_device_res_dm.dart';
+import '../../../repositories/remote_repository/common/models/request_res_dm.dart';
 import '../../../utilities/extensions/context_extensions.dart';
 import '../../../utilities/network/network_state.dart';
 import '../../../values/app_global/current_user.dart';
@@ -72,7 +72,7 @@ class MyDevicesScreen extends StatelessWidget {
 class _DeviceListSliver extends StatelessWidget {
   const _DeviceListSliver({required this.devices});
 
-  final List<MyDeviceResDm> devices;
+  final List<RequestResDm> devices;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class _DeviceListSliver extends StatelessWidget {
 class _DeviceCard extends StatelessWidget {
   const _DeviceCard({required this.device});
 
-  final MyDeviceResDm device;
+  final RequestResDm device;
 
   static final _dateFormat = DateFormat('dd MMM yyyy');
 

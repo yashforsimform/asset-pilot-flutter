@@ -4,8 +4,8 @@ import 'package:retrofit/retrofit.dart';
 import '../../../models/api_response/api_result.dart';
 import '../../../utilities/api_utilities/my_call_adapter.dart';
 import '../auth/models/login_req_dm.dart';
-import '../auth/models/user_res_dm.dart';
-import '../device/models/my_device_res_dm.dart';
+import '../common/models/request_res_dm.dart';
+import '../common/models/user_res_dm.dart';
 
 part 'api_service.g.dart';
 
@@ -26,7 +26,7 @@ abstract class ApiService {
   /// their assigned `item`). [userId] stands in for a bearer token until a
   /// real auth session exists.
   @GET('/me/devices')
-  Future<ApiResult<List<MyDeviceResDm>>> getMyDevices(
+  Future<ApiResult<List<RequestResDm>>> getMyDevices(
     @Header('X-User-Id') String userId,
   );
 }
