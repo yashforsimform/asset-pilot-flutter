@@ -75,11 +75,20 @@ class _StatusPillsRow extends StatelessWidget {
         return FilterPillTabs(
           tabs: [
             PillTab(id: 'all', label: context.l10n.requestFilterAll),
-            PillTab(id: 'pendingMgrApproval', label: context.l10n.requestFilterPendingMgr),
-            PillTab(id: 'pendingItApproval', label: context.l10n.requestFilterPendingIt),
+            PillTab(
+              id: 'pendingMgrApproval',
+              label: context.l10n.requestFilterPendingMgr,
+            ),
+            PillTab(
+              id: 'pendingItApproval',
+              label: context.l10n.requestFilterPendingIt,
+            ),
             PillTab(id: 'assigned', label: context.l10n.requestFilterAssigned),
             PillTab(id: 'rejected', label: context.l10n.requestFilterRejected),
-            PillTab(id: 'completed', label: context.l10n.requestFilterCompleted),
+            PillTab(
+              id: 'completed',
+              label: context.l10n.requestFilterCompleted,
+            ),
           ],
           selectedId: state.statusFilter,
           onChanged: context.read<RequestListCubit>().setStatusFilter,
@@ -102,10 +111,14 @@ class _FiltersRow extends StatelessWidget {
           runSpacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            FilterDropdownChip(
-              label: context.l10n.requestFilterPriority,
-              valueLabel: state.priorityFilter?.label ?? context.l10n.requestFilterAll,
-              onTap: () => _showPriorityMenu(context, cubit),
+            Builder(
+              builder: (chipContext) => FilterDropdownChip(
+                label: context.l10n.requestFilterPriority,
+                valueLabel:
+                    state.priorityFilter?.label ??
+                    context.l10n.requestFilterAll,
+                onTap: () => _showPriorityMenu(chipContext, cubit),
+              ),
             ),
             // TODO(category-filter): category filtering by id needs the
             // categories dropdown endpoint wired to a picker; stubbed as
@@ -138,7 +151,7 @@ class _FiltersRow extends StatelessWidget {
   void _showPriorityMenu(BuildContext context, RequestListCubit cubit) {
     showMenu<RequestPriority?>(
       context: context,
-      position: const RelativeRect.fromLTRB(200, 200, 0, 0),
+      position: context.menuPositionBelow(),
       items: [
         PopupMenuItem(value: null, child: Text(context.l10n.requestFilterAll)),
         for (final priority in RequestPriority.values)

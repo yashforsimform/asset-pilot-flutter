@@ -53,10 +53,7 @@ class _MaintenanceListScreenState extends State<MaintenanceListScreen> {
                 onData: (context, data) => Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      flex: 17,
-                      child: _MaintenanceTable(items: data),
-                    ),
+                    Expanded(flex: 17, child: _MaintenanceTable(items: data)),
                     const Gap(18),
                     const Expanded(flex: 10, child: _ChangeStatusPanel()),
                   ],
@@ -146,10 +143,13 @@ class _ChangeStatusPanel extends StatelessWidget {
               ),
               const Gap(16),
               if (selected != null) ...[
-                PickerField(
-                  label: context.l10n.maintenanceNewStatus,
-                  valueText: (state.newStatus ?? DeviceStatus.available).label,
-                  onTap: () => _showStatusMenu(context, cubit),
+                Builder(
+                  builder: (fieldContext) => PickerField(
+                    label: context.l10n.maintenanceNewStatus,
+                    valueText:
+                        (state.newStatus ?? DeviceStatus.available).label,
+                    onTap: () => _showStatusMenu(fieldContext, cubit),
+                  ),
                 ),
                 const Gap(14),
                 AppTextField.multiline(
@@ -183,7 +183,7 @@ class _ChangeStatusPanel extends StatelessWidget {
   void _showStatusMenu(BuildContext context, MaintenanceListCubit cubit) {
     showMenu<DeviceStatus>(
       context: context,
-      position: const RelativeRect.fromLTRB(400, 300, 0, 0),
+      position: context.menuPositionBelow(),
       items: [
         for (final status in kMaintenanceTargetStatuses)
           PopupMenuItem(value: status, child: Text(status.label)),

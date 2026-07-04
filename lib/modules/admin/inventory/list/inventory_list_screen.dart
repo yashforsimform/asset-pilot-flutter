@@ -98,14 +98,16 @@ class _FiltersRow extends StatelessWidget {
           runSpacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            FilterDropdownChip(
-              label: context.l10n.inventoryFilterStatus,
-              valueLabel: state.statusFilter == 'all'
-                  ? context.l10n.inventoryFilterAll
-                  : DeviceStatus.values
-                      .firstWhere((s) => s.name == state.statusFilter)
-                      .label,
-              onTap: () => _showStatusMenu(context, cubit),
+            Builder(
+              builder: (chipContext) => FilterDropdownChip(
+                label: context.l10n.inventoryFilterStatus,
+                valueLabel: state.statusFilter == 'all'
+                    ? context.l10n.inventoryFilterAll
+                    : DeviceStatus.values
+                          .firstWhere((s) => s.name == state.statusFilter)
+                          .label,
+                onTap: () => _showStatusMenu(chipContext, cubit),
+              ),
             ),
             // TODO(category-filter): category filtering by id needs the
             // categories dropdown endpoint wired to a picker; stubbed as
@@ -131,9 +133,12 @@ class _FiltersRow extends StatelessWidget {
   void _showStatusMenu(BuildContext context, InventoryListCubit cubit) {
     showMenu<String>(
       context: context,
-      position: const RelativeRect.fromLTRB(200, 200, 0, 0),
+      position: context.menuPositionBelow(),
       items: [
-        PopupMenuItem(value: 'all', child: Text(context.l10n.inventoryFilterAll)),
+        PopupMenuItem(
+          value: 'all',
+          child: Text(context.l10n.inventoryFilterAll),
+        ),
         for (final status in DeviceStatus.values)
           PopupMenuItem(value: status.name, child: Text(status.label)),
       ],
@@ -181,7 +186,9 @@ class _InventoryTable extends StatelessWidget {
                 header: context.l10n.inventoryFieldOwnerType,
                 cellBuilder: (context, row) => Text(
                   row.ownerType == OwnerType.client
-                      ? context.l10n.inventoryOwnerTypeClient(row.clientName ?? '')
+                      ? context.l10n.inventoryOwnerTypeClient(
+                          row.clientName ?? '',
+                        )
                       : row.ownerType.label,
                 ),
               ),
@@ -222,7 +229,8 @@ class _InventoryTable extends StatelessWidget {
                       variant: AppButtonVariant.secondary,
                       // TODO: wire to real Edit Device form when backend +
                       // design are ready.
-                      onPressed: () => AppToast.info(context, context.l10n.comingSoon),
+                      onPressed: () =>
+                          AppToast.info(context, context.l10n.comingSoon),
                     ),
                   ],
                 ),
