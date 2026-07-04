@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ItemCategoryResDm {
 
- String get id; String get name;
+ String get id; String get name; String? get description; bool get requiresMgrApproval; bool get isActive; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of ItemCategoryResDm
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ItemCategoryResDmCopyWith<ItemCategoryResDm> get copyWith => _$ItemCategoryResD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemCategoryResDm&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemCategoryResDm&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.requiresMgrApproval, requiresMgrApproval) || other.requiresMgrApproval == requiresMgrApproval)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode => Object.hash(runtimeType,id,name,description,requiresMgrApproval,isActive,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ItemCategoryResDm(id: $id, name: $name)';
+  return 'ItemCategoryResDm(id: $id, name: $name, description: $description, requiresMgrApproval: $requiresMgrApproval, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ItemCategoryResDmCopyWith<$Res>  {
   factory $ItemCategoryResDmCopyWith(ItemCategoryResDm value, $Res Function(ItemCategoryResDm) _then) = _$ItemCategoryResDmCopyWithImpl;
 @useResult
 $Res call({
- String id, String name
+ String id, String name, String? description, bool requiresMgrApproval, bool isActive, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -65,11 +65,16 @@ class _$ItemCategoryResDmCopyWithImpl<$Res>
 
 /// Create a copy of ItemCategoryResDm
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? requiresMgrApproval = null,Object? isActive = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,requiresMgrApproval: null == requiresMgrApproval ? _self.requiresMgrApproval : requiresMgrApproval // ignore: cast_nullable_to_non_nullable
+as bool,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -154,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? description,  bool requiresMgrApproval,  bool isActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ItemCategoryResDm() when $default != null:
-return $default(_that.id,_that.name);case _:
+return $default(_that.id,_that.name,_that.description,_that.requiresMgrApproval,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -175,10 +180,10 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? description,  bool requiresMgrApproval,  bool isActive,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ItemCategoryResDm():
-return $default(_that.id,_that.name);case _:
+return $default(_that.id,_that.name,_that.description,_that.requiresMgrApproval,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +200,10 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? description,  bool requiresMgrApproval,  bool isActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ItemCategoryResDm() when $default != null:
-return $default(_that.id,_that.name);case _:
+return $default(_that.id,_that.name,_that.description,_that.requiresMgrApproval,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -210,11 +215,16 @@ return $default(_that.id,_that.name);case _:
 @JsonSerializable()
 
 class _ItemCategoryResDm implements ItemCategoryResDm {
-  const _ItemCategoryResDm({this.id = '', this.name = ''});
+  const _ItemCategoryResDm({this.id = '', this.name = '', this.description, this.requiresMgrApproval = false, this.isActive = true, this.createdAt, this.updatedAt});
   factory _ItemCategoryResDm.fromJson(Map<String, dynamic> json) => _$ItemCategoryResDmFromJson(json);
 
 @override@JsonKey() final  String id;
 @override@JsonKey() final  String name;
+@override final  String? description;
+@override@JsonKey() final  bool requiresMgrApproval;
+@override@JsonKey() final  bool isActive;
+@override final  DateTime? createdAt;
+@override final  DateTime? updatedAt;
 
 /// Create a copy of ItemCategoryResDm
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ItemCategoryResDm&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ItemCategoryResDm&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.requiresMgrApproval, requiresMgrApproval) || other.requiresMgrApproval == requiresMgrApproval)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode => Object.hash(runtimeType,id,name,description,requiresMgrApproval,isActive,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ItemCategoryResDm(id: $id, name: $name)';
+  return 'ItemCategoryResDm(id: $id, name: $name, description: $description, requiresMgrApproval: $requiresMgrApproval, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -249,7 +259,7 @@ abstract mixin class _$ItemCategoryResDmCopyWith<$Res> implements $ItemCategoryR
   factory _$ItemCategoryResDmCopyWith(_ItemCategoryResDm value, $Res Function(_ItemCategoryResDm) _then) = __$ItemCategoryResDmCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name
+ String id, String name, String? description, bool requiresMgrApproval, bool isActive, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -266,11 +276,16 @@ class __$ItemCategoryResDmCopyWithImpl<$Res>
 
 /// Create a copy of ItemCategoryResDm
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? requiresMgrApproval = null,Object? isActive = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_ItemCategoryResDm(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,requiresMgrApproval: null == requiresMgrApproval ? _self.requiresMgrApproval : requiresMgrApproval // ignore: cast_nullable_to_non_nullable
+as bool,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

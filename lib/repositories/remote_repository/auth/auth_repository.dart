@@ -1,7 +1,7 @@
 import '../../../models/api_response/api_result.dart';
 import '../../../models/exceptions/app_exception.dart';
 import '../api_repository/api_repository.dart';
-import 'models/user_res_dm.dart';
+import '../common/models/user_res_dm.dart';
 
 /// Repository for authentication.
 ///

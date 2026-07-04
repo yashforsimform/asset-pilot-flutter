@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../repositories/remote_repository/common/models/request_res_dm.dart';
 import '../../../../repositories/remote_repository/device/device_repository.dart';
-import '../../../../repositories/remote_repository/device/models/my_device_res_dm.dart';
 import '../../../../utilities/api_utilities/error_manager.dart';
 import '../../../../utilities/network/network_state.dart';
 import '../../../../utilities/network/safe_emit.dart';
