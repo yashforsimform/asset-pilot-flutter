@@ -40,10 +40,13 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      # Upload the compiled build/web directory directly to the Storage Account
+      # 1. Fetch the storage account key (Requires only standard Contributor access)
+      ACCOUNT_KEY=$(az storage account keys list --resource-group prodessy --account-name $(storageAccountName) --query "[0].value" --output tsv)
+      
+      # 2. Upload the compiled build/web directory directly to the Storage Account
       az storage blob upload-batch \
         --source build/web \
         --destination "\$web" \
         --account-name $(storageAccountName) \
-        --auth-mode login \
+        --account-key $ACCOUNT_KEY \
         --overwrite true
