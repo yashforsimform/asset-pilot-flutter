@@ -41,3 +41,50 @@ enum RequestPriority { low, medium, high }
 
 /// Whether a device is company-owned or client-owned.
 enum OwnerType { company, client }
+
+/// Manager approval leg — shared by `request` and `extension_request`.
+///
+/// Mirrors `mgr_approval_status` in schema_v3.dbml exactly.
+enum MgrApprovalStatus { notRequired, pending, approved, rejected }
+
+/// Who rejected a `request`. Mirrors `rejected_by_enum`.
+enum RejectedBy { manager, itAdmin, itAdminCancel }
+
+/// Category of a `support_request`. Mirrors `support_type`.
+enum SupportType { update, damage, lost }
+
+/// How a `support_request` was resolved. Mirrors `support_resolution`.
+enum SupportResolution { remoteResolved, repairedInPlace, swapped, markedLost }
+
+/// `device_log` event type — append-only audit trail. Mirrors
+/// `device_log_event` exactly.
+enum DeviceLogEvent {
+  deviceCreated,
+  deviceEdited,
+  assigned,
+  clientAssigned,
+  shipOutboundInitiated,
+  shipOutboundCompleted,
+  returnShipInitiated,
+  returnReceived,
+  assignmentCompleted,
+  statusChanged,
+  supportOpened,
+  supportResolved,
+  supportAutoClosed,
+  extensionRequested,
+  extensionApproved,
+  extensionRejected,
+  handoverRequested,
+  handoverAccepted,
+  handoverRejected,
+  handoverCancelled,
+  handoverCompleted,
+  markedLost,
+  retired,
+  returnedToClient,
+}
+
+/// Actor role recorded on a `device_log` row. Mirrors `actor_role` — a
+/// superset of [UserRole] that also allows `system` for automated events.
+enum ActorRole { employee, manager, itAdmin, system }
