@@ -14,12 +14,18 @@ class PillActionButton extends StatelessWidget {
     required this.onPressed,
     this.variant = AppButtonVariant.primary,
     this.trailingIcon,
+    this.expand = false,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final AppButtonVariant variant;
   final IconData? trailingIcon;
+
+  /// Fills available width — used when a table column pins a fixed width
+  /// on the cell so same-column buttons with different labels (e.g. "View"
+  /// vs "Assign") render at a consistent size.
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +35,7 @@ class PillActionButton extends StatelessWidget {
       variant: variant,
       size: AppButtonSize.small,
       trailingIcon: trailingIcon,
+      expand: expand,
     );
   }
 }

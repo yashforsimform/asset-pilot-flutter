@@ -1,4 +1,4 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Build flavors. Wiring for dev/uat/prod builds is deferred, but the shape is
 /// in place so flavored entry points can set [Env.current] at startup.
@@ -39,15 +39,15 @@ class Env {
   /// Call once at app startup, before [runApp]. Falls back to the hardcoded
   /// dev URL above if `.env` is missing or `BASE_URL` is unset.
   static Future<void> load() async {
-    await dotenv.load(fileName: '.env');
-    final baseUrl = dotenv.env['BASE_URL'];
-    if (baseUrl != null && baseUrl.isNotEmpty) {
-      values = {
-        ...values,
-        Flavor.dev: Env(flavor: Flavor.dev, baseUrl: baseUrl),
-      };
-      current = values[Flavor.dev]!;
-    }
+    // await dotenv.load(fileName: '.env');
+    // final baseUrl = dotenv.env['BASE_URL'];
+    // if (baseUrl != null && baseUrl.isNotEmpty) {
+    //   values = {
+    //     ...values,
+    //     Flavor.dev: Env(flavor: Flavor.dev, baseUrl: baseUrl),
+    //   };
+    //   current = values[Flavor.dev]!;
+    // }
   }
 
   static void init(Flavor flavor) => current = values[flavor]!;

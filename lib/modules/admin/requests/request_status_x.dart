@@ -1,3 +1,6 @@
+import 'package:flutter/widgets.dart';
+
+import '../../../utilities/extensions/context_extensions.dart';
 import '../../../values/enumeration/statuses.dart';
 import '../../../widgets/widgets.dart';
 
@@ -6,32 +9,36 @@ import '../../../widgets/widgets.dart';
 /// import `values/enumeration/statuses.dart`; modules own this mapping).
 extension RequestStatusX on RequestStatus {
   AppSemantic get semantic => switch (this) {
-        RequestStatus.pendingManager => AppSemantic.neutral,
-        RequestStatus.pendingIt => AppSemantic.warning,
-        RequestStatus.assigned => AppSemantic.success,
-        RequestStatus.rejected => AppSemantic.danger,
-        RequestStatus.completed => AppSemantic.neutral,
-      };
+    RequestStatus.pendingMgrApproval => AppSemantic.neutral,
+    RequestStatus.pendingItApproval => AppSemantic.warning,
+    RequestStatus.assigned => AppSemantic.success,
+    RequestStatus.rejected => AppSemantic.danger,
+    RequestStatus.completed => AppSemantic.neutral,
+    RequestStatus.cancelled => AppSemantic.neutral,
+    RequestStatus.requested => AppSemantic.neutral,
+  };
 
-  String get label => switch (this) {
-        RequestStatus.pendingManager => 'Pending RM',
-        RequestStatus.pendingIt => 'Pending IT',
-        RequestStatus.assigned => 'Assigned',
-        RequestStatus.rejected => 'Rejected',
-        RequestStatus.completed => 'Completed',
-      };
+  String label(BuildContext context) => switch (this) {
+    RequestStatus.pendingMgrApproval => context.l10n.requestFilterPendingRm,
+    RequestStatus.pendingItApproval => context.l10n.requestFilterPendingIt,
+    RequestStatus.assigned => context.l10n.requestFilterAssigned,
+    RequestStatus.rejected => context.l10n.requestFilterRejected,
+    RequestStatus.completed => context.l10n.requestFilterCompleted,
+    RequestStatus.requested => context.l10n.requestDetailRequested,
+    RequestStatus.cancelled => context.l10n.requestFilterRejected,
+  };
 }
 
 extension RequestPriorityX on RequestPriority {
   AppSemantic get semantic => switch (this) {
-        RequestPriority.low => AppSemantic.neutral,
-        RequestPriority.medium => AppSemantic.info,
-        RequestPriority.high => AppSemantic.danger,
-      };
+    RequestPriority.low => AppSemantic.neutral,
+    RequestPriority.medium => AppSemantic.info,
+    RequestPriority.high => AppSemantic.danger,
+  };
 
-  String get label => switch (this) {
-        RequestPriority.low => 'Low',
-        RequestPriority.medium => 'Medium',
-        RequestPriority.high => 'High',
-      };
+  String label(BuildContext context) => switch (this) {
+    RequestPriority.low => context.l10n.priorityLow,
+    RequestPriority.medium => context.l10n.priorityMedium,
+    RequestPriority.high => context.l10n.priorityHigh,
+  };
 }

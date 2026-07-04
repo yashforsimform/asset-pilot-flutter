@@ -35,41 +35,56 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminShell(
-      title: 'Request ${context.read<RequestDetailCubit>().requestId} · Assign Device',
-      selectedNavId: 'requests',
-      child: BlocConsumer<RequestDetailCubit, RequestDetailState>(
-        listenWhen: (previous, current) => previous.submission != current.submission,
-        listener: (context, state) {
-          switch (state.submission) {
-            case Success():
-              AppToast.success(context, 'Request updated.');
-              context.go(Routes.adminRequests.path);
-            case Error(:final message):
-              AppToast.error(context, message);
-            case Idle() || Loading():
-              break;
-          }
-        },
-        builder: (context, state) {
-          return NetworkStateView<RequestDetailResDm>(
-            state: state.detail,
-            onData: (context, detail) => Padding(
-              padding: const EdgeInsets.all(AppConstants.screenPadding),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(width: 280, child: _RequestInfoPanel(detail: detail)),
-                  const Gap(18),
-                  Expanded(child: _SuggestionsPanel(state: state)),
-                  const Gap(18),
-                  SizedBox(width: 320, child: _BookingCalendarPanel(detail: detail)),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+    final l10n = context.l10n;
+    return Column(
+      children: [
+        AdminPageHeader(
+          title: l10n.requestDetailTitle(
+            context.read<RequestDetailCubit>().requestId,
+          ),
+        ),
+        Expanded(
+          child: BlocConsumer<RequestDetailCubit, RequestDetailState>(
+            listenWhen: (previous, current) =>
+                previous.submission != current.submission,
+            listener: (context, state) {
+              switch (state.submission) {
+                case Success():
+                  AppToast.success(context, l10n.requestUpdatedToast);
+                  context.go(Routes.adminRequests.path);
+                case Error(:final message):
+                  AppToast.error(context, message);
+                case Idle() || Loading():
+                  break;
+              }
+            },
+            builder: (context, state) {
+              return NetworkStateView<RequestDetailResDm>(
+                state: state.detail,
+                onData: (context, detail) => Padding(
+                  padding: const EdgeInsets.all(AppConstants.screenPadding),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 280,
+                        child: _RequestInfoPanel(detail: detail),
+                      ),
+                      const Gap(18),
+                      Expanded(child: _SuggestionsPanel(state: state)),
+                      const Gap(18),
+                      SizedBox(
+                        width: 320,
+                        child: _BookingCalendarPanel(detail: detail),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -81,11 +96,12 @@ class _RequestInfoPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Request Info', style: context.appTextStyles.h3),
+          Text(l10n.requestInfoTitle, style: context.appTextStyles.h3),
           const Gap(14),
           Row(
             children: [
@@ -106,37 +122,44 @@ class _RequestInfoPanel extends StatelessWidget {
           const Gap(14),
           InfoRowsCard(
             rows: [
-              InfoRow(label: 'Category', value: Text(detail.category)),
               InfoRow(
-                label: 'Priority',
+                label: l10n.requestInfoCategoryLabel,
+                value: Text(detail.category),
+              ),
+              InfoRow(
+                label: l10n.requestInfoPriorityLabel,
                 value: PriorityTag(
                   semantic: detail.priority.semantic,
-                  label: detail.priority.label,
+                  label: detail.priority.label(context),
                 ),
               ),
               InfoRow(
-                label: 'Status',
+                label: l10n.requestInfoStatusLabel,
                 value: StatusPill(
                   semantic: detail.status.semantic,
-                  label: detail.status.label,
+                  label: detail.status.label(context),
                   dense: true,
                 ),
               ),
               InfoRow(
-                label: 'Mgr approval',
-                value: Text(detail.managerApproved ? 'Approved' : 'Pending'),
+                label: l10n.requestInfoMgrApprovalLabel,
+                value: Text(
+                  detail.managerApproved
+                      ? l10n.requestMgrApproved
+                      : l10n.requestMgrPending,
+                ),
               ),
             ],
           ),
           const Gap(14),
-          Text('Requested dates', style: context.appTextStyles.bodySmall),
+          Text(l10n.requestInfoRequestedDatesLabel, style: context.appTextStyles.bodySmall),
           const Gap(5),
           Text(
             '${detail.requestedFrom} – ${detail.requestedTo}',
             style: context.appTextStyles.labelLarge,
           ),
           const Gap(14),
-          Text('Note', style: context.appTextStyles.bodySmall),
+          Text(l10n.requestInfoNoteLabel, style: context.appTextStyles.bodySmall),
           const Gap(5),
           Text(detail.note, style: context.appTextStyles.bodyMedium),
         ],
@@ -153,14 +176,15 @@ class _SuggestionsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<RequestDetailCubit>();
+    final l10n = context.l10n;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Suggested Devices', style: context.appTextStyles.h3),
+          Text(l10n.suggestedDevicesTitle, style: context.appTextStyles.h3),
           const Gap(6),
           Text(
-            'Available Laptops with no date conflict · ranked by fewest requests & longest free',
+            l10n.suggestedDevicesSubtitle,
             style: context.appTextStyles.bodySmall,
           ),
           const Gap(14),
@@ -190,7 +214,7 @@ class _SuggestionsPanel extends StatelessWidget {
             children: [
               Expanded(
                 child: PickerField(
-                  label: 'Assigned from',
+                  label: l10n.assignedFromLabel,
                   valueText: state.assignedFrom,
                   onTap: () {},
                 ),
@@ -198,7 +222,7 @@ class _SuggestionsPanel extends StatelessWidget {
               const Gap(12),
               Expanded(
                 child: PickerField(
-                  label: 'Assigned to',
+                  label: l10n.assignedToLabel,
                   valueText: state.assignedTo,
                   onTap: () {},
                 ),
@@ -207,7 +231,7 @@ class _SuggestionsPanel extends StatelessWidget {
               AppSwitch(
                 value: state.workFromHome,
                 onChanged: cubit.toggleWorkFromHome,
-                label: 'WFH',
+                label: l10n.wfhLabel,
               ),
             ],
           ),
@@ -216,7 +240,7 @@ class _SuggestionsPanel extends StatelessWidget {
             children: [
               Expanded(
                 child: AppButton(
-                  label: 'Assign Device',
+                  label: l10n.assignDeviceButton,
                   onPressed: state.selectedDeviceId == null
                       ? null
                       : (state.submission is Loading ? null : cubit.assign),
@@ -226,7 +250,7 @@ class _SuggestionsPanel extends StatelessWidget {
               ),
               const Gap(10),
               AppButton(
-                label: 'Reject',
+                label: l10n.rejectButton,
                 variant: AppButtonVariant.secondary,
                 onPressed: state.submission is Loading ? null : () => cubit.reject(),
               ),
@@ -245,13 +269,14 @@ class _BookingCalendarPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Booking Calendar', style: context.appTextStyles.h3),
+          Text(l10n.bookingCalendarTitle, style: context.appTextStyles.h3),
           const Gap(6),
-          Text('Existing bookings · static preview', style: context.appTextStyles.bodySmall),
+          Text(l10n.bookingCalendarSubtitle, style: context.appTextStyles.bodySmall),
           const Gap(14),
           const _CalendarBar(month: 'Jul', fraction: 0.4),
           const Gap(9),
@@ -263,17 +288,17 @@ class _BookingCalendarPanel extends StatelessWidget {
           const Gap(9),
           const _CalendarBar(month: 'Nov', fraction: 0.45, warning: true),
           const Gap(16),
-          const InlineAlert(
+          InlineAlert(
             semantic: AppSemantic.warning,
-            message: 'Overlaps an existing booking in Nov. Nudge the conflicting range?',
+            message: l10n.bookingCalendarOverlapWarning,
           ),
           const Gap(12),
           AppButton(
-            label: 'Nudge conflicting range',
+            label: l10n.nudgeConflictingRangeButton,
             variant: AppButtonVariant.secondary,
             expand: true,
             // TODO(nudge): no conflict-resolution flow exists yet — stubbed.
-            onPressed: () => AppToast.info(context, context.l10n.comingSoon),
+            onPressed: () => AppToast.info(context, l10n.comingSoon),
           ),
         ],
       ),

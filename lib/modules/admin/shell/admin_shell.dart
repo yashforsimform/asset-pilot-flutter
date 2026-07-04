@@ -3,28 +3,22 @@ import 'package:go_router/go_router.dart';
 
 import '../../../utilities/extensions/context_extensions.dart';
 import '../../../utilities/helpers/responsive.dart';
-import '../../../utilities/navigation/app_routes.dart';
 import '../../../widgets/nav/app_side_nav.dart';
 import '../../../widgets/nav/nav_item.dart';
 
 /// IT Admin desktop/web shell with a persistent left navigation rail
-/// (mockup A01 chrome). Collapses to icon-only on narrow widths so the same
-/// shell serves web and desktop without platform branching.
+/// (mockup A01 chrome).
+///
+/// Built once by the [StatefulShellRoute] in `admin_routes.dart` and stays
+/// mounted across navigation — [navigationShell] swaps only the active
+/// branch's content, so sidebar taps no longer replace the whole screen
+/// (no rebuild, no page transition). Collapses to icon-only on narrow
+/// widths so the same shell serves web and desktop without platform
+/// branching.
 class AdminShell extends StatelessWidget {
-  const AdminShell({
-    super.key,
-    required this.title,
-    required this.selectedNavId,
-    required this.child,
-  });
+  const AdminShell({super.key, required this.navigationShell});
 
-  final String title;
-
-  /// Which [NavItem.id] is highlighted in the side nav (e.g. `'dashboard'`,
-  /// `'requests'`). Only ids with a built screen route via [_onSelected];
-  /// the rest are inert until their screens exist.
-  final String selectedNavId;
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
@@ -58,36 +52,35 @@ class AdminShell extends StatelessWidget {
         children: [
           AppSideNav(
             items: items,
-            selectedId: selectedNavId,
-            onSelected: (id) => _onSelected(context, id),
+            selectedId: items[navigationShell.currentIndex].id,
+            onSelected: (id) => _onSelected(id),
             brandLabel: 'ASSETPILOT',
             expanded: expanded,
           ),
-          Expanded(
-            child: Column(
-              children: [
-                _AdminTopBar(title: title),
-                Expanded(child: child),
-              ],
-            ),
-          ),
+          Expanded(child: navigationShell),
         ],
       ),
     );
   }
 
-  void _onSelected(BuildContext context, String id) {
-    final path = switch (id) {
-      'dashboard' => Routes.adminDashboard.path,
-      'requests' => Routes.adminRequests.path,
+  void _onSelected(String id) {
+    final index = switch (id) {
+      'dashboard' => 0,
+      'requests' => 1,
       _ => null,
     };
-    if (path != null) context.go(path);
+    // Only ids with a built branch switch; 'inventory'/'settings' are inert
+    // until their screens exist.
+    if (index != null) navigationShell.goBranch(index);
   }
 }
 
-class _AdminTopBar extends StatelessWidget {
-  const _AdminTopBar({required this.title});
+/// Top bar rendered by each admin screen itself (title is per-screen and,
+/// for [RequestDetailScreen]-style screens, dynamic — e.g. includes the
+/// request id — so it can't be hoisted onto the now-persistent
+/// [AdminShell]).
+class AdminPageHeader extends StatelessWidget {
+  const AdminPageHeader({super.key, required this.title});
 
   final String title;
 

@@ -25,28 +25,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminShell(
-      title: context.l10n.adminDashboard,
-      selectedNavId: 'dashboard',
-      child: Padding(
-        padding: const EdgeInsets.all(AppConstants.screenPadding),
-        child:
-            BlocSelector<
-              DashboardCubit,
-              DashboardState,
-              NetworkState<DashboardKpis>
-            >(
-              selector: (state) => state.kpis,
-              builder: (context, kpis) {
-                return switch (kpis) {
-                  Idle() ||
-                  Loading() => const Center(child: CircularProgressIndicator()),
-                  Success(:final data) => _KpiRow(kpis: data),
-                  Error(:final message) => Center(child: Text(message)),
-                };
-              },
-            ),
-      ),
+    return Column(
+      children: [
+        AdminPageHeader(title: context.l10n.adminDashboard),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(AppConstants.screenPadding),
+            child:
+                BlocSelector<
+                  DashboardCubit,
+                  DashboardState,
+                  NetworkState<DashboardKpis>
+                >(
+                  selector: (state) => state.kpis,
+                  builder: (context, kpis) {
+                    return switch (kpis) {
+                      Idle() ||
+                      Loading() =>
+                        const Center(child: CircularProgressIndicator()),
+                      Success(:final data) => _KpiRow(kpis: data),
+                      Error(:final message) => Center(child: Text(message)),
+                    };
+                  },
+                ),
+          ),
+        ),
+      ],
     );
   }
 }

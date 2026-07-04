@@ -137,12 +137,16 @@ class SnackBarToastPresenter implements ToastPresenter {
   }
 }
 
-/// Top-right stacked toast — idiomatic for the admin web/desktop shell
-/// (fixed sidebar + top bar make a bottom SnackBar easy to miss). Register
-/// in `main_admin.dart`. Requires a root [Overlay] in the widget tree
+/// Top-right toast — idiomatic for the admin web/desktop shell (fixed
+/// sidebar + top bar make a bottom SnackBar easy to miss). Register in
+/// `main_admin.dart`. Requires a root [Overlay] in the widget tree
 /// (provided by [MaterialApp]).
+///
+/// A new call always replaces any toast still on screen — repeated taps
+/// (e.g. a stubbed "coming soon" action) re-show at the same fixed top-right
+/// position instead of stacking below the previous one.
 class OverlayToastPresenter implements ToastPresenter {
-  final List<OverlayEntry> _entries = [];
+  OverlayEntry? _entry;
 
   @override
   void show(
@@ -152,29 +156,29 @@ class OverlayToastPresenter implements ToastPresenter {
     String? actionLabel,
     VoidCallback? onAction,
   }) {
+    _entry?.remove();
+
     final overlay = Overlay.of(context, rootOverlay: true);
     late final OverlayEntry entry;
     entry = OverlayEntry(
       builder: (context) => _ToastStack(
-        index: _entries.length,
         message: message,
         kind: kind,
         actionLabel: actionLabel,
         onAction: onAction,
         onDismiss: () {
           entry.remove();
-          _entries.remove(entry);
+          if (_entry == entry) _entry = null;
         },
       ),
     );
-    _entries.add(entry);
+    _entry = entry;
     overlay.insert(entry);
   }
 }
 
 class _ToastStack extends StatefulWidget {
   const _ToastStack({
-    required this.index,
     required this.message,
     required this.kind,
     required this.onDismiss,
@@ -182,7 +186,6 @@ class _ToastStack extends StatefulWidget {
     this.onAction,
   });
 
-  final int index;
   final String message;
   final ToastKind kind;
   final String? actionLabel;
@@ -212,7 +215,7 @@ class _ToastStackState extends State<_ToastStack> {
   Widget build(BuildContext context) {
     final colors = widget.kind.semantic.colors(context);
     return Positioned(
-      top: 20 + (widget.index * 64),
+      top: 20,
       right: 20,
       child: Material(
         color: Colors.transparent,

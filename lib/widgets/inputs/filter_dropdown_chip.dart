@@ -9,11 +9,17 @@ class FilterDropdownChip extends StatelessWidget {
     required this.label,
     required this.valueLabel,
     required this.onTap,
+    this.trailingIcon = Icons.keyboard_arrow_down,
   });
 
   final String label;
   final String valueLabel;
   final VoidCallback onTap;
+
+  /// Trailing glyph — defaults to a dropdown chevron; pass e.g.
+  /// [Icons.calendar_today_outlined] for triggers that open a picker rather
+  /// than a menu.
+  final IconData trailingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,7 @@ class FilterDropdownChip extends StatelessWidget {
             ),
             const SizedBox(width: 7),
             Icon(
-              Icons.keyboard_arrow_down,
+              trailingIcon,
               size: 13,
               color: context.appColors.textHint,
             ),

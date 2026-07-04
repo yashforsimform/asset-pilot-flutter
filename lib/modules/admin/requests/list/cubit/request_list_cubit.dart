@@ -97,4 +97,12 @@ class RequestListCubit extends Cubit<RequestListState> {
   /// Full filtered list (pre-pagination) — used by the screen to compute
   /// [TablePagination.totalItems] and to slice the current page.
   List<RequestSummaryResDm> get filteredRequests => _filtered();
+
+  /// Total request count per status-tab id (e.g. `'all'`, `'pendingIt'`),
+  /// ignoring the active filters — powers the "· 312" counts on
+  /// [FilterPillTabs] (mockup A02).
+  int countFor(String statusTabId) {
+    if (statusTabId == 'all') return _allRequests.length;
+    return _allRequests.where((r) => r.status.name == statusTabId).length;
+  }
 }
