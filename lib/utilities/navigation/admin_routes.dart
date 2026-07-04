@@ -1,0 +1,23 @@
+import 'package:go_router/go_router.dart';
+
+import '../../modules/admin/dashboard/cubit/dashboard_cubit.dart';
+import '../../modules/admin/dashboard/dashboard_screen.dart';
+import '../../views/invalid_route/invalid_route_screen.dart';
+import 'app_routes.dart';
+
+/// GoRouter for the IT Admin (web/desktop) variant.
+GoRouter buildAdminRouter() {
+  return GoRouter(
+    initialLocation: Routes.adminDashboard.path,
+    errorBuilder: (context, state) =>
+        InvalidRouteScreen(path: state.uri.toString()),
+    routes: [
+      GoRoute(
+        path: Routes.adminDashboard.path,
+        name: Routes.adminDashboard.name,
+        builder: (context, state) =>
+            const DashboardScreen().withProvider((_) => DashboardCubit()),
+      ),
+    ],
+  );
+}

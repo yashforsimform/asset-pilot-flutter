@@ -1,0 +1,115 @@
+name: asset_pilot
+description: "AssetPilot — Employee Device Management (Employee/Manager mobile + IT Admin web/desktop)."
+# Prevents accidental publishing to pub.dev.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Code Generation (runtime annotations)
+  # Freezed-generated code imports freezed_annotation at runtime.
+  freezed_annotation: 3.1.0
+  # JSON serialization annotations used by generated *.g.dart files.
+  json_annotation: 4.12.0
+
+  # Localization
+  # Internationalization / message formatting. Pinned by flutter_localizations.
+  intl: 0.20.2
+
+  # Navigation
+  # Declarative routing for the mobile and admin variants.
+  go_router: 17.3.0
+
+  # Networking
+  # HTTP client.
+  dio: 5.10.0
+  # Type-safe REST client generator built on Dio.
+  retrofit: 4.9.2
+
+  # State Management
+  # Value equality for state/model classes.
+  equatable: 2.0.8
+  # Cubit / Bloc state management.
+  flutter_bloc: 9.1.1
+
+  # Storage
+  # Encrypted key-value storage for tokens/secrets.
+  flutter_secure_storage: 10.3.1
+  # Simple key-value app preferences.
+  shared_preferences: 2.5.5
+
+  # UI
+  # Disk/memory cached network images.
+  cached_network_image: 3.4.1
+  # iOS-style icons.
+  cupertino_icons: 1.0.9
+  # SVG rendering for icons/illustrations.
+  flutter_svg: 2.3.0
+  # Concise spacing widget (Gap).
+  gap: 3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code Generation
+  # Runs all code generators.
+  build_runner: 2.15.0
+  # Type-safe asset references (Assets.*).
+  flutter_gen_runner: 5.14.1
+  # Immutable data classes / unions.
+  freezed: 3.2.5
+  # fromJson/toJson generator.
+  json_serializable: 6.14.0
+  # Generates Retrofit API service implementations.
+  retrofit_generator: 10.2.7
+
+  # Linting
+  # Recommended lint set.
+  flutter_lints: 6.0.0
+
+flutter:
+  uses-material-design: true
+  # Generate localization delegates from lib/l10n/*.arb (see l10n.yaml).
+  generate: true
+
+  assets:
+    - assets/icons/
+    - assets/images/
+
+  # Fonts from the design system (Poppins headings + DM Sans body).
+  # DEFERRED: the .ttf files are added under assets/fonts/ during UI
+  # implementation, at which point this block is uncommented. Until then the
+  # font-family names in app_text_styles.dart fall back to the platform default.
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Poppins-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700
+  #   - family: DM Sans
+  #     fonts:
+  #       - asset: assets/fonts/DMSans-Regular.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/DMSans-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/DMSans-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/DMSans-Bold.ttf
+  #         weight: 700
+
+# flutter_gen: type-safe asset references generated into lib/generated/.
+flutter_gen:
+  output: lib/generated/
+  line_length: 80

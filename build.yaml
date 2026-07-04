@@ -1,0 +1,18 @@
+targets:
+  $default:
+    builders:
+      # Freezed: generate immutable classes / unions.
+      freezed:
+        options:
+          # Keep generated files lean; we don't need copyWith on every union case beyond defaults.
+          copy_with: true
+      # json_serializable: omit null fields by default (matches @JsonSerializable(includeIfNull: false)).
+      json_serializable:
+        options:
+          explicit_to_json: true
+          field_rename: none
+      # flutter_gen: type-safe asset references.
+      flutter_gen_runner:
+        options:
+          output: lib/generated/
+          line_length: 80

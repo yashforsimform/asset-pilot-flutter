@@ -1,0 +1,30 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+/// All named routes across both variants.
+///
+/// Each entry carries its `path` and `name`. Use [Routes.path] where a raw
+/// path string is needed (e.g. `context.go(Routes.login.path)`).
+enum Routes {
+  // Mobile (Employee/Manager)
+  login(path: '/login', name: 'login'),
+  mobileShell(path: '/home', name: 'mobileShell'),
+
+  // Admin (IT)
+  adminDashboard(path: '/dashboard', name: 'adminDashboard');
+
+  const Routes({required this.path, required this.name});
+
+  final String path;
+  final String name;
+}
+
+/// Wraps a screen widget in a [BlocProvider] for its cubit, so cubits are
+/// scoped per-route (the DI convention when `get_it` is not used).
+extension WithProvider on Widget {
+  Widget withProvider<C extends StateStreamableSource<Object?>>(
+    C Function(BuildContext) create,
+  ) {
+    return BlocProvider<C>(create: create, child: this);
+  }
+}
